@@ -14,8 +14,20 @@ const editSecretPostMenu = require('../../views/menus/editSecretPostMenu');
 const generateAndSendStatistics = require('../../utils/stats');
 
 module.exports = (bot) => {
-    bot.hears('📝 Постинг', (ctx) => {
+    bot.hears('📝 Постинг', async (ctx) => {
         ctx.reply(messages.postingWelcome, postingMenu);
+        try {
+            const userId = ctx.from.id
+            if (userId) {
+                const users = await bot.db.getData("/users") || [];
+                if (!users.includes(userId)) {
+                    users.push(userId);
+                    bot.db.push("/users", users, true);
+                }
+            }
+        } catch (err) {
+            console.log(err)
+        }
     });
 
     bot.hears('📊 Статистика', async (ctx) => {

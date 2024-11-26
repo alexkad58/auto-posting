@@ -31,7 +31,7 @@ function generateUrlKeyboard(message) {
     const keyboard = [];
 
     for (const line of lines) {
-        const buttons = line.split(' ') // Разделяем по пробелам
+        const buttons = line.split('~') // Разделяем по пробелам
             .filter(item => item.includes('|')) // Проверяем пары name-url
             .map(item => {
                 const [name, url] = item.split('|');
